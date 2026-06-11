@@ -3,354 +3,937 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="AS Traders - Premium Wholesale Stationery Supplier for Schools, Offices, and Retailers">
-    <meta name="keywords" content="wholesale stationery, bulk stationery, school supplies, office supplies, writing materials">
-    <title>AS Traders | Wholesale Stationery Supplier</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>AS Traders | Premium Stationery</title>
+    
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+
+    <!-- GSAP for Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --primary: #2C3E50;
+            --accent: #D4A373;
+            --bg-light: #FAF9F6; /* Off-white */
+            --bg-card: #FFFFFF;
+            --text-dark: #1A1A1A;
+            --text-gray: #666666;
+            --success: #27ae60;
+            --shadow: 0 10px 30px rgba(0,0,0,0.05);
+            --radius: 12px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+            color: var(--primary);
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        img { width: 100%; display: block; object-fit: cover; }
+        button { cursor: pointer; border: none; outline: none; font-family: inherit; }
+
+        /* --- UTILITIES --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-padding {
+            padding: 80px 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: var(--transition);
+            font-size: 0.95rem;
+        }
+
+        .btn:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 163, 115, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* --- HEADER --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(250, 249, 246, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 600;
+            font-family: 'Playfair Display', serif;
+            letter-spacing: -0.5px;
+        }
+
+        .logo span { color: var(--accent); }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            font-size: 0.95rem;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after { width: 100%; }
+
+        .nav-icons {
+            display: flex;
+            gap: 20px;
+            font-size: 1.2rem;
+            align-items: center;
+        }
+
+        .cart-icon-wrap {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--accent);
+            color: white;
+            font-size: 0.7rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: 80px;
+        }
+
+        .hero-content {
+            flex: 1;
+            padding-right: 50px;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-size: 4.5rem;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-gray);
+            margin-bottom: 30px;
+            max-width: 500px;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .hero-image {
+            flex: 1;
+            height: 80%;
+            position: relative;
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        .hero-image img {
+            height: 100%;
+            border-radius: 20px 0 20px 0;
+            box-shadow: 20px 20px 0px rgba(212, 163, 115, 0.2);
+        }
+
+        /* --- CATEGORIES --- */
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .category-card {
+            position: relative;
+            height: 300px;
+            border-radius: var(--radius);
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .category-card img {
+            height: 100%;
+            transition: transform 0.6s ease;
+        }
+
+        .category-card:hover img {
+            transform: scale(1.1);
+        }
+
+        .cat-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 30px;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            color: white;
+        }
+
+        .cat-overlay h3 { color: white; font-size: 1.5rem; margin-bottom: 5px; }
+
+        /* --- PRODUCTS --- */
+        .filter-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 20px;
+            border-radius: 30px;
+            background: white;
+            border: 1px solid #eee;
+            color: var(--text-gray);
+            transition: var(--transition);
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .prod-img-wrap {
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .prod-img-wrap img {
+            height: 100%;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .prod-img-wrap img {
+            transform: scale(1.05);
+        }
+
+        .add-to-cart-btn {
+            position: absolute;
+            bottom: -50px;
+            left: 0;
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            padding: 12px;
+            text-align: center;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .product-card:hover .add-to-cart-btn {
+            bottom: 0;
+        }
+
+        .prod-info {
+            padding: 20px;
+        }
+
+        .prod-cat {
+            font-size: 0.8rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .prod-title {
+            font-size: 1.2rem;
+            margin: 5px 0;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+        }
+
+        .prod-price {
+            font-size: 1.1rem;
+            color: var(--text-gray);
+            font-weight: 500;
+        }
+
+        /* --- CART SIDEBAR --- */
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background: white;
+            z-index: 2000;
+            box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-sidebar.open {
+            right: 0;
+        }
+
+        .cart-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .cart-item img {
+            width: 70px;
+            height: 70px;
+            border-radius: 8px;
+        }
+
+        .cart-item-details h4 {
+            font-size: 1rem;
+            font-family: 'Outfit', sans-serif;
+            margin-bottom: 5px;
+        }
+
+        .cart-footer {
+            padding: 20px;
+            border-top: 1px solid #eee;
+            background: #fafafa;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1500;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 60px 0 20px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h4 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-col ul li a {
+            color: rgba(255,255,255,0.7);
+            transition: 0.3s;
+        }
+
+        .footer-col ul li a:hover {
+            color: var(--accent);
+            padding-left: 5px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.5);
+            font-size: 0.9rem;
+        }
+
+        /* --- MOBILE RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .hero {
+                flex-direction: column;
+                height: auto;
+                padding-top: 120px;
+                text-align: center;
+            }
+
+            .hero-content {
+                padding-right: 0;
+                margin-bottom: 40px;
+            }
+
+            .hero-title {
+                font-size: 3rem;
+            }
+
+            .hero-image {
+                width: 100%;
+                height: 400px;
+            }
+
+            .nav-links {
+                display: none; /* Simple hide for this demo, would use JS toggle in prod */
+            }
+            
+            .cart-sidebar {
+                width: 100%;
+                right: -100%;
+            }
+        }
+        
+        /* Notification Toast */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--primary);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            z-index: 3000;
+            opacity: 0;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+    </style>
 </head>
 <body>
+
     <!-- Header -->
-    <header class="header">
+    <header>
         <div class="container">
-            <nav class="navbar">
-                <div class="logo">
-                    <h1>AS Traders</h1>
-                    <span>Wholesale Stationery</span>
-                </div>
-                <button class="mobile-menu-btn" id="mobileMenuBtn">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
-                <ul class="nav-links" id="navLinks">
-                    <li><a href="#home" class="active">Home</a></li>
-                    <li><a href="#about">About Us</a></li>
-                    <li><a href="#products">Products</a></li>
-                    <li><a href="#faq">FAQ</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                    <li><a href="#inquiry" class="btn-primary">Get Quote</a></li>
+            <nav>
+                <a href="#" class="logo">AS <span>Traders</span></a>
+                
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#shop">Shop</a></li>
+                    <li><a href="#categories">Categories</a></li>
+                    <li><a href="#about">About</a></li>
                 </ul>
+
+                <div class="nav-icons">
+                    <i class="ri-search-line"></i>
+                    <div class="cart-icon-wrap" onclick="toggleCart()">
+                        <i class="ri-shopping-bag-line"></i>
+                        <span class="cart-count">0</span>
+                    </div>
+                    <i class="ri-menu-line" style="display: none;"></i> <!-- Mobile Menu Trigger -->
+                </div>
             </nav>
         </div>
     </header>
 
     <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1>Premium Wholesale Stationery for Your Business</h1>
-                <p>Supplying schools, offices, and retailers with high-quality stationery products at competitive wholesale prices.</p>
-                <div class="hero-buttons">
-                    <a href="#products" class="btn-primary">Browse Products</a>
-                    <a href="#inquiry" class="btn-secondary">Request Quote</a>
+    <section id="home" class="hero container">
+        <div class="hero-content">
+            <h1 class="hero-title">Craft Your Ideas<br>With Premium <span style="color:var(--accent); font-style:italic;">Stationery</span></h1>
+            <p class="hero-subtitle">Discover our curated collection of high-quality writing instruments, planners, and art supplies designed for creators and professionals.</p>
+            <a href="#shop" class="btn">Explore Collection</a>
+        </div>
+        <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1456735190827-d1262f71b8a3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1480&q=80" alt="Stationery Setup">
+        </div>
+    </section>
+
+    <!-- Categories -->
+    <section id="categories" class="section-padding container">
+        <div style="text-align: center; margin-bottom: 40px;">
+            <h2>Shop by Category</h2>
+            <p style="color: var(--text-gray);">Find exactly what you need for your workspace</p>
+        </div>
+        
+        <div class="categories-grid">
+            <div class="category-card">
+                <img src="https://images.unsplash.com/photo-1585336261022-680e295ce3fe?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Writing">
+                <div class="cat-overlay">
+                    <h3>Writing Instruments</h3>
+                    <p>Pens, Pencils & Markers</p>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="https://images.unsplash.com/photo-1531346878377-a513bc95ba0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Notebooks">
+                <div class="cat-overlay">
+                    <h3>Notebooks & Journals</h3>
+                    <p>Planners & Sketchbooks</p>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="https://images.unsplash.com/photo-1517842645767-c639042777db?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Desk Org">
+                <div class="cat-overlay">
+                    <h3>Desk Organization</h3>
+                    <p>Keep your space tidy</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Benefits Section -->
-    <section class="benefits">
+    <!-- Products Section -->
+    <section id="shop" class="section-padding" style="background: white;">
         <div class="container">
-            <div class="section-header">
-                <h2>Why Choose AS Traders?</h2>
-                <p>Your trusted partner for bulk stationery needs</p>
+            <div style="text-align: center; margin-bottom: 40px;">
+                <h2>Featured Products</h2>
+                <p style="color: var(--text-gray);">Handpicked favorites for this season</p>
             </div>
-            <div class="benefits-grid">
-                <div class="benefit-card">
-                    <div class="benefit-icon">💰</div>
-                    <h3>Best Prices</h3>
-                    <p>Competitive wholesale pricing with bulk discounts</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">📦</div>
-                    <h3>Bulk Supply</h3>
-                    <p>Large inventory ready for immediate dispatch</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">✅</div>
-                    <h3>Quality Assured</h3>
-                    <p>Premium products from trusted manufacturers</p>
-                </div>
-                <div class="benefit-card">
-                    <div class="benefit-icon">🚚</div>
-                    <h3>Fast Delivery</h3>
-                    <p>Quick and reliable shipping across regions</p>
-                </div>
+
+            <div class="filter-tabs">
+                <button class="filter-btn active" onclick="filterProducts('all')">All</button>
+                <button class="filter-btn" onclick="filterProducts('pens')">Pens</button>
+                <button class="filter-btn" onclick="filterProducts('notebooks')">Notebooks</button>
+                <button class="filter-btn" onclick="filterProducts('accessories')">Accessories</button>
+            </div>
+
+            <div class="products-grid" id="products-container">
+                <!-- Products injected via JS -->
+            </div>
+            
+            <div style="text-align: center; margin-top: 50px;">
+                <a href="#" class="btn btn-outline">View All Products</a>
             </div>
         </div>
     </section>
 
-    <!-- Product Categories -->
-    <section id="products" class="categories">
-        <div class="container">
-            <div class="section-header">
-                <h2>Our Product Categories</h2>
-                <p>Comprehensive range of stationery for all needs</p>
+    <!-- About Snippet -->
+    <section id="about" class="section-padding container">
+        <div style="display: flex; gap: 50px; align-items: center; flex-wrap: wrap;">
+            <div style="flex: 1; min-width: 300px;">
+                <img src="https://images.unsplash.com/photo-1497215728101-856f4ea42174?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Office" style="border-radius: var(--radius);">
             </div>
-            <div class="category-filter">
-                <button class="filter-btn active" data-category="all">All Products</button>
-                <button class="filter-btn" data-category="writing">Writing Supplies</button>
-                <button class="filter-btn" data-category="school">School Stationery</button>
-                <button class="filter-btn" data-category="office">Office Supplies</button>
-                <button class="filter-btn" data-category="paper">Paper Products</button>
-                <button class="filter-btn" data-category="art">Art & Craft</button>
-                <button class="filter-btn" data-category="educational">Educational</button>
-            </div>
-            <div class="products-grid" id="productsGrid">
-                <!-- Products will be loaded by JavaScript -->
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="about">
-        <div class="container">
-            <div class="about-content">
-                <div class="about-text">
-                    <h2>About AS Traders</h2>
-                    <p>Established with a vision to become the leading wholesale stationery supplier, AS Traders has been serving schools, offices, retailers, and institutions with quality products for years.</p>
-                    <h3>Our Mission</h3>
-                    <p>To provide affordable, high-quality stationery products while maintaining exceptional customer service and building long-term partnerships with our clients.</p>
-                    <h3>Our Vision</h3>
-                    <p>To be the most trusted wholesale stationery partner, known for reliability, quality, and competitive pricing across the region.</p>
-                    <h3>Who We Serve</h3>
-                    <ul class="target-customers">
-                        <li>🏫 Schools & Educational Institutions</li>
-                        <li>🏢 Corporate Offices</li>
-                        <li>🏪 Retail Stationery Stores</li>
-                        <li>📚 Libraries & Coaching Centers</li>
-                        <li>🎨 Art Studios & Craft Centers</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonials -->
-    <section class="testimonials">
-        <div class="container">
-            <div class="section-header">
-                <h2>What Our Customers Say</h2>
-                <p>Trusted by hundreds of businesses</p>
-            </div>
-            <div class="testimonials-grid">
-                <div class="testimonial-card">
-                    <p>"Excellent quality products and amazing wholesale prices. AS Traders has been our go-to supplier for 3 years now."</p>
-                    <div class="testimonial-author">
-                        <strong>Rajesh Kumar</strong>
-                        <span>School Principal</span>
-                    </div>
-                </div>
-                <div class="testimonial-card">
-                    <p>"Fast delivery and great customer service. They always have stock available for our bulk orders."</p>
-                    <div class="testimonial-author">
-                        <strong>Priya Sharma</strong>
-                        <span>Office Manager</span>
-                    </div>
-                </div>
-                <div class="testimonial-card">
-                    <p>"Best wholesale rates in the market. Highly recommended for anyone looking for bulk stationery."</p>
-                    <div class="testimonial-author">
-                        <strong>Amit Patel</strong>
-                        <span>Retail Store Owner</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- FAQ Section -->
-    <section id="faq" class="faq">
-        <div class="container">
-            <div class="section-header">
-                <h2>Frequently Asked Questions</h2>
-                <p>Find answers to common questions</p>
-            </div>
-            <div class="faq-list">
-                <div class="faq-item">
-                    <button class="faq-question">
-                        What is the minimum order quantity?
-                        <span class="faq-icon">+</span>
-                    </button>
-                    <div class="faq-answer">
-                        <p>Our minimum order quantity varies by product category. Generally, we require a minimum order of ₹5,000 for wholesale pricing. Contact us for specific product MOQs.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question">
-                        Do you offer bulk discounts?
-                        <span class="faq-icon">+</span>
-                    </button>
-                    <div class="faq-answer">
-                        <p>Yes! We offer attractive bulk discounts on large orders. The discount percentage increases with order value. Get in touch for a customized quote.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question">
-                        What are your delivery charges?
-                        <span class="faq-icon">+</span>
-                    </button>
-                    <div class="faq-answer">
-                        <p>Delivery charges depend on order size and location. Orders above ₹10,000 qualify for free delivery in most areas. Contact us for specific shipping costs.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question">
-                        Can I get product samples before bulk ordering?
-                        <span class="faq-icon">+</span>
-                    </button>
-                    <div class="faq-answer">
-                        <p>Yes, we provide product samples for serious buyers. Sample charges may apply but are adjustable against your first bulk order.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <button class="faq-question">
-                        What payment methods do you accept?
-                        <span class="faq-icon">+</span>
-                    </button>
-                    <div class="faq-answer">
-                        <p>We accept bank transfers, UPI, checks, and cash on delivery for local orders. Credit terms available for established business customers.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Inquiry Form -->
-    <section id="inquiry" class="inquiry">
-        <div class="container">
-            <div class="section-header">
-                <h2>Request a Wholesale Quote</h2>
-                <p>Fill out the form and we'll get back to you within 24 hours</p>
-            </div>
-            <form class="inquiry-form" id="inquiryForm">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="name">Full Name *</label>
-                        <input type="text" id="name" name="name" required placeholder="Your name">
-                    </div>
-                    <div class="form-group">
-                        <label for="company">Company/Organization</label>
-                        <input type="text" id="company" name="company" placeholder="Your company name">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="email">Email Address *</label>
-                        <input type="email" id="email" name="email" required placeholder="your@email.com">
-                    </div>
-                    <div class="form-group">
-                        <label for="phone">Phone Number *</label>
-                        <input type="tel" id="phone" name="phone" required placeholder="+91 XXXXX XXXXX">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="category">Product Category of Interest</label>
-                    <select id="category" name="category">
-                        <option value="">Select a category</option>
-                        <option value="writing">Writing Supplies</option>
-                        <option value="school">School Stationery</option>
-                        <option value="office">Office Supplies</option>
-                        <option value="paper">Paper Products</option>
-                        <option value="art">Art & Craft Materials</option>
-                        <option value="educational">Educational Supplies</option>
-                        <option value="multiple">Multiple Categories</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="message">Requirements/Message *</label>
-                    <textarea id="message" name="message" rows="5" required placeholder="Tell us about your requirements, quantities, and any specific products you're interested in..."></textarea>
-                </div>
-                <button type="submit" class="btn-primary btn-full">Submit Inquiry</button>
-            </form>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <div class="section-header">
-                <h2>Contact Us</h2>
-                <p>Get in touch with our team</p>
-            </div>
-            <div class="contact-grid">
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <h3>📍 Address</h3>
-                        <p>AS Traders<br>123 Stationery Market<br>Main Road, City - 400001<br>India</p>
-                    </div>
-                    <div class="contact-item">
-                        <h3>📞 Phone</h3>
-                        <p>+91 98765 43210<br>+91 12345 67890</p>
-                    </div>
-                    <div class="contact-item">
-                        <h3>✉️ Email</h3>
-                        <p>info@astraders.com<br>sales@astraders.com</p>
-                    </div>
-                    <div class="contact-item">
-                        <h3>⏰ Business Hours</h3>
-                        <p>Mon - Sat: 9:00 AM - 7:00 PM<br>Sunday: Closed</p>
-                    </div>
-                </div>
-                <div class="contact-map">
-                    <div class="map-placeholder">
-                        <p>🗺️ Google Maps Integration</p>
-                        <p>Location: Main Stationery Market</p>
-                    </div>
-                </div>
+            <div style="flex: 1; min-width: 300px;">
+                <h4 style="color: var(--accent); text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; margin-bottom: 10px;">Our Story</h4>
+                <h2 style="font-size: 2.5rem; margin-bottom: 20px;">Quality Supplies for Creative Minds</h2>
+                <p style="color: var(--text-gray); margin-bottom: 20px;">
+                    AS Traders began with a simple mission: to provide schools, offices, and artists with stationery that inspires. We believe that the tools you use every day should be as thoughtful as the work you create.
+                </p>
+                <ul style="margin-bottom: 30px;">
+                    <li style="margin-bottom: 10px;"><i class="ri-check-line" style="color: var(--success); margin-right: 10px;"></i> Premium Quality Materials</li>
+                    <li style="margin-bottom: 10px;"><i class="ri-check-line" style="color: var(--success); margin-right: 10px;"></i> Eco-Friendly Options</li>
+                    <li style="margin-bottom: 10px;"><i class="ri-check-line" style="color: var(--success); margin-right: 10px;"></i> Bulk Wholesale Pricing</li>
+                </ul>
+                <a href="#contact" class="btn">Contact Us</a>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer id="contact">
         <div class="container">
             <div class="footer-grid">
-                <div class="footer-about">
-                    <h3>AS Traders</h3>
-                    <p>Your trusted wholesale stationery partner for quality products at competitive prices.</p>
+                <div class="footer-col">
+                    <a href="#" class="logo" style="color: white; margin-bottom: 20px; display: block;">AS <span>Traders</span></a>
+                    <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">
+                        Your trusted partner for premium stationery supplies. Elevating everyday writing experiences.
+                    </p>
                 </div>
-                <div class="footer-links">
+                <div class="footer-col">
                     <h4>Quick Links</h4>
                     <ul>
                         <li><a href="#home">Home</a></li>
+                        <li><a href="#shop">Shop</a></li>
                         <li><a href="#about">About Us</a></li>
-                        <li><a href="#products">Products</a></li>
-                        <li><a href="#inquiry">Get Quote</a></li>
+                        <li><a href="#">Wholesale Inquiry</a></li>
                     </ul>
                 </div>
-                <div class="footer-categories">
-                    <h4>Categories</h4>
-                    <ul>
-                        <li>Writing Supplies</li>
-                        <li>School Stationery</li>
-                        <li>Office Supplies</li>
-                        <li>Paper Products</li>
-                    </ul>
-                </div>
-                <div class="footer-contact">
+                <div class="footer-col">
                     <h4>Contact</h4>
-                    <p>📞 +91 98765 43210</p>
-                    <p>✉️ info@astraders.com</p>
+                    <ul>
+                        <li><i class="ri-map-pin-line"></i> 123 Business Park, City</li>
+                        <li><i class="ri-phone-line"></i> +1 234 567 890</li>
+                        <li><i class="ri-mail-line"></i> hello@astraders.com</li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Follow Us</h4>
+                    <div style="display: flex; gap: 15px; font-size: 1.5rem;">
+                        <a href="#"><i class="ri-instagram-line"></i></a>
+                        <a href="#"><i class="ri-facebook-circle-line"></i></a>
+                        <a href="#"><i class="ri-twitter-x-line"></i></a>
+                    </div>
                 </div>
             </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 AS Traders. All rights reserved.</p>
+            <div class="copyright">
+                &copy; 2023 AS Traders. All rights reserved. Designed with simplicity.
             </div>
         </div>
     </footer>
 
-    <!-- WhatsApp Button -->
-    <a href="https://wa.me/919876543210" class="whatsapp-btn" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="currentColor">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
-        </svg>
-        Chat on WhatsApp
-    </a>
+    <!-- Cart Sidebar -->
+    <div class="overlay" onclick="toggleCart()"></div>
+    <div class="cart-sidebar">
+        <div class="cart-header">
+            <h3>Your Cart</h3>
+            <i class="ri-close-line" style="font-size: 1.5rem; cursor: pointer;" onclick="toggleCart()"></i>
+        </div>
+        <div class="cart-items" id="cart-items-container">
+            <!-- Cart items injected here -->
+            <p style="text-align: center; color: var(--text-gray); margin-top: 50px;">Your cart is empty.</p>
+        </div>
+        <div class="cart-footer">
+            <div class="total-row">
+                <span>Total</span>
+                <span id="cart-total">$0.00</span>
+            </div>
+            <button class="btn" style="width: 100%;" onclick="checkout()">Proceed to Checkout</button>
+        </div>
+    </div>
 
-    <script src="script.js"></script>
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="ri-checkbox-circle-fill" style="color: var(--success); font-size: 1.2rem;"></i>
+        <span>Item added to cart!</span>
+    </div>
+
+    <script>
+        // --- DATA ---
+        const products = [
+            {
+                id: 1,
+                title: "Minimalist Gel Pen Set",
+                category: "pens",
+                price: 12.99,
+                image: "https://images.unsplash.com/photo-1585336261022-680e295ce3fe?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: 2,
+                title: "Hardcover Dot Grid Notebook",
+                category: "notebooks",
+                price: 18.50,
+                image: "https://images.unsplash.com/photo-1531346878377-a513bc95ba0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: 3,
+                title: "Gold Desk Organizer",
+                category: "accessories",
+                price: 24.99,
+                image: "https://images.unsplash.com/photo-1517842645767-c639042777db?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: 4,
+                title: "Premium Fountain Pen",
+                category: "pens",
+                price: 45.00,
+                image: "https://images.unsplash.com/photo-1585336261022-680e295ce3fe?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
+                // Reusing image for demo, normally unique
+            },
+            {
+                id: 5,
+                title: "Leather Journal",
+                category: "notebooks",
+                price: 32.00,
+                image: "https://images.unsplash.com/photo-1544816155-12df9643f363?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: 6,
+                title: "Washi Tape Collection",
+                category: "accessories",
+                price: 9.99,
+                image: "https://images.unsplash.com/photo-1606166187734-a4492099c9eb?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: 7,
+                title: "Mechanical Pencil Set",
+                category: "pens",
+                price: 15.50,
+                image: "https://images.unsplash.com/photo-1585336261022-680e295ce3fe?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: 8,
+                title: "Weekly Planner 2024",
+                category: "notebooks",
+                price: 22.00,
+                image: "https://images.unsplash.com/photo-1506784983877-45594efa4c68?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+            }
+        ];
+
+        let cart = [];
+
+        // --- INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProducts(products);
+            initAnimations();
+        });
+
+        // --- RENDER PRODUCTS ---
+        function renderProducts(items) {
+            const container = document.getElementById('products-container');
+            container.innerHTML = '';
+
+            items.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <div class="prod-img-wrap">
+                        <img src="${product.image}" alt="${product.title}">
+                        <button class="add-to-cart-btn" onclick="addToCart(${product.id})">
+                            Add to Cart
+                        </button>
+                    </div>
+                    <div class="prod-info">
+                        <span class="prod-cat">${product.category}</span>
+                        <h3 class="prod-title">${product.title}</h3>
+                        <div class="prod-price">$${product.price.toFixed(2)}</div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // --- FILTER FUNCTIONALITY ---
+        function filterProducts(category) {
+            // Update buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Filter logic
+            if (category === 'all') {
+                renderProducts(products);
+            } else {
+                const filtered = products.filter(p => p.category === category);
+                renderProducts(filtered);
+            }
+        }
+
+        // --- CART FUNCTIONALITY ---
+        function toggleCart() {
+            document.querySelector('.cart-sidebar').classList.toggle('open');
+            document.querySelector('.overlay').classList.toggle('active');
+        }
+
+        function addToCart(id) {
+            const product = products.find(p => p.id === id);
+            cart.push(product);
+            updateCartUI();
+            showToast();
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const container = document.getElementById('cart-items-container');
+            const countBadge = document.querySelector('.cart-count');
+            const totalEl = document.getElementById('cart-total');
+
+            // Update Count
+            countBadge.textContent = cart.length;
+
+            // Calculate Total
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            totalEl.textContent = '$' + total.toFixed(2);
+
+            // Render Items
+            if (cart.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: var(--text-gray); margin-top: 50px;">Your cart is empty.</p>';
+            } else {
+                container.innerHTML = '';
+                cart.forEach((item, index) => {
+                    const itemEl = document.createElement('div');
+                    itemEl.className = 'cart-item';
+                    itemEl.innerHTML = `
+                        <img src="${item.image}" alt="${item.title}">
+                        <div class="cart-item-details">
+                            <h4>${item.title}</h4>
+                            <div style="color: var(--text-gray); font-size: 0.9rem;">$${item.price.toFixed(2)}</div>
+                            <button onclick="removeFromCart(${index})" style="color: red; font-size: 0.8rem; margin-top: 5px; background: none; text-decoration: underline;">Remove</button>
+                        </div>
+                    `;
+                    container.appendChild(itemEl);
+                });
+            }
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                alert("Your cart is empty!");
+                return;
+            }
+            alert(`Thank you for your order! Total: $${cart.reduce((s,i)=>s+i.price,0).toFixed(2)}`);
+            cart = [];
+            updateCartUI();
+            toggleCart();
+        }
+
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // --- ANIMATIONS (GSAP) ---
+        function initAnimations() {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Hero Animations
+            const tl = gsap.timeline();
+            tl.to(".hero-title", { opacity: 1, y: 0, duration: 1, ease: "power3.out" })
+              .to(".hero-subtitle", { opacity: 1, y: 0, duration: 1, ease: "power3.out" }, "-=0.5")
+              .to(".hero-image", { opacity: 1, scale: 1, duration: 1.2, ease: "power2.out" }, "-=1");
+
+            // Scroll Animations for Sections
+            gsap.utils.toArray('.section-padding').forEach(section => {
+                gsap.from(section.children, {
+                    scrollTrigger: {
+                        trigger: section,
+                        start: "top 80%",
+                    },
+                    y: 50,
+                    opacity: 0,
+                    duration: 0.8,
+                    stagger: 0.2,
+                    ease: "power3.out"
+                });
+            });
+        }
+    </script>
 </body>
 </html>
