@@ -2,54 +2,51 @@
 # Dependencies
 node_modules/
 
+# Build artifacts
+dist/
+build/
+.next/
+
 # Environment variables
 .env
 .env.local
-.env.*
+*.env.*
 
-# Build outputs
-.next/
-dist/
-build/
-out/
-
-# Logs
-*.log
-
-# OS generated files
-.DS_Store
-Thumbs.db
-
-# IDE specific
+# IDE files
 .vscode/
 .idea/
 *.swp
 *.swo
+*.tmp
 
-# Python
+# Logs
+*.log
+
+# Python cache
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
-.Python
-*.so
 
 # Coverage reports
 coverage/
 htmlcov/
 .coverage
 
-# Temporary files
-*.tmp
-*.temp
-*.bak
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# TypeScript/Next.js
+*.tsbuildinfo
+.next/cache/
 
 # Database
 *.db
 *.sqlite
 *.sqlite3
 
-# Compression
+# Compression files
 *.zip
 *.gz
 *.tar
